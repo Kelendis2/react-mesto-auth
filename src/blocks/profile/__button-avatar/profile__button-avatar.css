@@ -1,0 +1,30 @@
+.profile__button-avatar {
+  border: none;
+  position: relative;
+  background-color: transparent;
+  padding: 0;
+  cursor: pointer;
+  width: 120px;
+  height: 120px;
+}
+
+.profile__button-avatar::before {
+  background-image: url("../../../images/pencil.svg");
+  background-color: rgba(0,0,0,.8);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size:  26px 26px;
+  opacity: 0;
+  border-radius: 50%;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  transition: 1s opacity ease-out;
+}
+
+.profile__button-avatar:hover.profile__button-avatar::before{
+  opacity: 1;
+}

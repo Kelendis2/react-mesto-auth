@@ -1,0 +1,10 @@
+.element__like_activ{
+  margin-top: 0px;
+  padding: 0;
+  cursor: pointer;
+  background-image: url(../../../../images/heart_active.svg);
+  background-repeat: no-repeat;
+  width: 22px;
+  height: 19px;
+}
+

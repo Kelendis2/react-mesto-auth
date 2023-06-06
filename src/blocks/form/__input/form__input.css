@@ -1,0 +1,18 @@
+.form__input{
+  margin: 0 auto 30px;
+  padding: 0;
+  width: 358px;
+  height: 26px;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  color: black;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+}
+@media screen and (max-width: 920px){
+  .form__input{
+    width: 238px;
+  }
+}
+

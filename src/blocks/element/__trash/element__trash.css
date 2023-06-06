@@ -1,0 +1,18 @@
+.element__trash{
+  margin: 0;
+  padding: 0;
+  background-image: url(../../../images/TrashButton.svg);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  border: none;
+  width: 18px;
+  height: 19px;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  cursor: pointer;
+}
+.element__trash:hover{
+  opacity: 50%;
+}

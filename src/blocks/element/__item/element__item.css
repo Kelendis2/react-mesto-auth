@@ -1,0 +1,15 @@
+.element__item{
+  background-color: white;
+  color: black;
+  margin: 0;
+  padding: 0;
+  width: 282px;
+  border-radius: 10px;
+  overflow:hidden;
+  position: relative;
+}
+@media screen and (max-width: 920px){
+  .element__item{
+    margin: 0 auto;
+  }
+}
