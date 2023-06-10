@@ -3,6 +3,9 @@
 @import url(./blocks/page/page.css);
 @import url(./blocks/header/header.css);
 @import url(./blocks/header/__logo/header__logo.css);
+@import url(./blocks/header/__user-email/header__user-email.css);
+@import url(./blocks/header/__button-exit/header__button-exit.css);
+@import url(./blocks/header/__button-registration/header__button-registration.css);
 @import url(./blocks/profile/profile.css);
 @import url(./blocks/profile/__info/profile__info.css);
 @import url(./blocks/profile/__avatar/profile__avatar.css);
@@ -45,6 +48,17 @@
 @import url(./blocks/popup/__container/_type/_trash/popup__container_type_trash.css);
 @import url(./blocks/form/_type/_avatar/form_type_avatar.css);
 @import url(./blocks/popup/__container/_type/_avatar/popup__container_type_avatar.css);
+@import url(./blocks/popup/__container/_type/_info/popup__container_type_info.css);
+@import url(./blocks/popup/__photo-info/popup__photo-info.css);
+@import url(./blocks/popup/__copyright/_place/_info/popup__copyright_place_info.css);
+@import url(./blocks/registration/registration.css);
+@import url(./blocks/registration/__title/registration__title.css);
+@import url(./blocks/registration/__inpit/registration__input.css);
+@import url(./blocks/registration/__submit/registration__submit.css);
+@import url(./blocks/registration/__link/registration__link.css);
+@import url(./blocks/registration/__error/registration__error.css);
+@import url(./blocks/error-page/error-page.css);
+@import url(./blocks/error-page/__button/error-page__button.css);
 
 html{
   line-height: 1.15;

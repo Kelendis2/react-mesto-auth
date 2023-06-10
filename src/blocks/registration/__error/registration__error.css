@@ -1,0 +1,11 @@
+.registration__error {
+  margin: 10px auto;
+  padding: 0;
+  width: 358px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: red;
+}
+

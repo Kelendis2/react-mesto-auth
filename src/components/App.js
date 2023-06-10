@@ -1,16 +1,30 @@
 import "../index.css";
+
+
+
+import { useEffect, useState } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+
+import { api } from "../utils/Api.js";
+//import {register,authorize,getContent} from "../utils/auth"
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
+
 import Header from "./Header.js";
 import Main from "./Main.js";
 import Footer from "./Footer.js";
-import { useEffect, useState } from "react";
-import ImagePopup from "./ImagePopup.js";
 
-import { api } from "../utils/Api.js";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import ImagePopup from "./ImagePopup.js";
+import Register from "./Register";
+import Login from "./Login";
+//import InfoTooltip from "./InfoTooltip";
+import ProtectedRoute from "./ProtectedRoute";
+import PageError from "./PageNotFound";
 import EditProfilePopup from "./EditProfilePopup";
 import AddPlacePopup from "./AddPlacePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import ConfirmationPopup from "./ConfirmationPopup";
+
+
 
 function App() {
   //Хуки
@@ -22,6 +36,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [selectedCard, setSelectedCard] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [userEmail, setUserEmail]= useState({email:''})
 
   // Получение данных с сервера о пользователе
   useEffect(() => {
@@ -64,7 +80,6 @@ function App() {
       .then((res) => {
         setCurrentUser(res);
         closeAllPopups();
-
       })
       .catch((err) => console.log(err))
       .finally(() => {
@@ -96,7 +111,6 @@ function App() {
         setIsLoading(false);
       });
   };
-
 
   // Закрытие всех попапов
   function closeAllPopups() {
@@ -138,54 +152,84 @@ function App() {
       });
   }
 
+  //Логин
+   const handleLogin = () => {
+    setLoggedIn(true);
+   }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="page">
-          <Header />
-          <Main
-            onEditProfile={handleEditProfileClick}
-            onAddPlace={handleAddCardClick}
-            onEditAvatar={handleEditAvatarClick}
-            onOpenTrash={handleTrashClick}
-            onOpenImage={hendleImageClick}
-            onClose={closeAllPopups}
-            cards={cards}
-            currentUser={currentUser}
-            onCardLike={handleCardLike}
-            onCardDelete={handleCardDelete}
-          />
+          <Routes>
+            <Route path="*" element={<PageError />} />
+            <Route
+              path="/"
+              element={
+                loggedIn ? (
+                  <Navigate to="/users/me" />
+                ) : (
+                  <Navigate to="/sign-in" replace />
+                )
+              }
+            />
+            <Route path="/sign-up" element={<Register />} />
+            <Route path="/sign-in" element={<Login handleLogin = {handleLogin} />} />
+            <Route
+              path="/users/me"
+              element={
+                <>
+                  <Header
+                  userEmail={userEmail} />
+                  <ProtectedRoute
+                    loggedIn={loggedIn}
+                    element={Main}
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddCardClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onOpenTrash={handleTrashClick}
+                    onOpenImage={hendleImageClick}
+                    onClose={closeAllPopups}
+                    cards={cards}
+                    currentUser={currentUser}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
+                  />
 
-          <Footer />
+                  <Footer />
 
-          <EditProfilePopup
-            isOpen={isProfilePopupOpen}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-            isLoading={isLoading}
-          />
+                  <EditProfilePopup
+                    isOpen={isProfilePopupOpen}
+                    onClose={closeAllPopups}
+                    onUpdateUser={handleUpdateUser}
+                    isLoading={isLoading}
+                  />
 
-          <EditAvatarPopup
-            isOpen={isAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-            isLoading={isLoading}
-          />
+                  <EditAvatarPopup
+                    isOpen={isAvatarPopupOpen}
+                    onClose={closeAllPopups}
+                    onUpdateAvatar={handleUpdateAvatar}
+                    isLoading={isLoading}
+                  />
 
-          <AddPlacePopup
-            isOpen={isAddCardPopupOpen}
-            onClose={closeAllPopups}
-            onAddPlace={handleAddCard}
-            isLoading={isLoading}
-          />
+                  <AddPlacePopup
+                    isOpen={isAddCardPopupOpen}
+                    onClose={closeAllPopups}
+                    onAddPlace={handleAddCard}
+                    isLoading={isLoading}
+                  />
 
-          <ConfirmationPopup
-            isOpen={isTrashPopupOpen}
-            onClose={closeAllPopups}
-            isLoading={isLoading}
-          />
+                  <ConfirmationPopup
+                    isOpen={isTrashPopupOpen}
+                    onClose={closeAllPopups}
+                    isLoading={isLoading}
+                  />
 
-          <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+                  <ImagePopup card={selectedCard} onClose={closeAllPopups} />
+                </>
+              }
+            />
+          </Routes>
         </div>
       </div>
     </CurrentUserContext.Provider>
