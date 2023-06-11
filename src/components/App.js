@@ -119,7 +119,6 @@ function App() {
   function handleInfoTooltipNegative() {
     setError(true);
     setIsInfoToolTipOpen(true);
-
   }
   // Закрытие всех попапов
   function closeAllPopups() {
@@ -176,7 +175,7 @@ function App() {
   };
 
   //Логин
-  const handleLogin = ({email}) => {
+  const handleLogin = ({ email }) => {
     setLoggedIn(true);
     setUserEmail({ email });
   };
@@ -188,19 +187,19 @@ function App() {
       auth
         .getContent(jwt)
         .then((res) => {
-          console.log(res)
+          console.log(res);
           if (res) {
-            handleLogin({email: res.data.email});
+            handleLogin({ email: res.data.email });
             navigate("/users/me");
           }
         })
-        .catch((err) => console.log(err))
+        .catch((err) => console.log(err));
     }
   };
 
   useEffect(() => {
     tockenCheck();
-  },[]);
+  }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -220,9 +219,7 @@ function App() {
             />
             <Route
               path="/sign-up"
-              element={
-                  <Register handleRegister={handleRegister} />
-              }
+              element={<Register handleRegister={handleRegister} />}
             />
             <Route
               path="/sign-in"
@@ -283,10 +280,10 @@ function App() {
             />
           </Routes>
           <InfoTooltip
-                    isOpen={isInfoToolTipOpen}
-                    onClose={closeAllPopups}
-                    isError={isError}
-                  />
+            isOpen={isInfoToolTipOpen}
+            onClose={closeAllPopups}
+            isError={isError}
+          />
         </div>
       </div>
     </CurrentUserContext.Provider>

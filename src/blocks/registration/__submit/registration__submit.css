@@ -1,4 +1,4 @@
-.registration__submit{
+.registration__submit {
   margin: 0;
   margin-top: 216px;
   padding: 0;
@@ -12,6 +12,4 @@
   border-radius: 2px;
   border: none;
   cursor: pointer;
-
-
 }

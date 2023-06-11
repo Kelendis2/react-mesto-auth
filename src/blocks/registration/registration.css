@@ -1,7 +1,7 @@
-.registration{
+.registration {
   margin: 0 auto;
   max-width: 358px;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   justify-content: center;
 }

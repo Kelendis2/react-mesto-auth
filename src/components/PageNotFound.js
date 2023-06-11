@@ -3,13 +3,17 @@ import { useNavigate } from "react-router-dom";
 
 function PageError() {
   const navigate = useNavigate();
-  const goBack = ()=>{navigate(-1)}
+  const goBack = () => {
+    navigate(-1);
+  };
   return (
     <>
-    <div className="error-page">
-    <button className="error-page__button" onClick={goBack}>Go back</button>
-    </div>
+      <div className="error-page">
+        <button className="error-page__button" onClick={goBack}>
+          Go back
+        </button>
+      </div>
     </>
   );
 }
- export default PageError;
+export default PageError;

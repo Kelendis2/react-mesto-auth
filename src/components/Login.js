@@ -3,7 +3,7 @@ import headerLogo from "../images/logo.svg";
 import { useNavigate } from "react-router-dom";
 import * as auth from "../utils/auth";
 
-function Login({handleLogin}) {
+function Login({ handleLogin }) {
   const navigate = useNavigate();
 
   const goToRegistration = () => {
@@ -40,7 +40,7 @@ function Login({handleLogin}) {
       .then((data) => {
         if (data.token) {
           localStorage.setItem("jwt", data.token);
-          handleLogin({email: formValue.email});
+          handleLogin({ email: formValue.email });
           navigate("/users/me");
         }
       })
