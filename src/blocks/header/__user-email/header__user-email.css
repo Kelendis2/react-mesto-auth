@@ -1,7 +1,7 @@
 .header__user-email{
 margin: 0;
-margin-left: 500px;
-width: 141px;
+margin-left: 450px;
+max-width: 190px;
 padding: 0;
 font-size: 18px;
 font-weight: 500;

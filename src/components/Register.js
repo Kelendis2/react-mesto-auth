@@ -3,7 +3,7 @@ import headerLogo from "../images/logo.svg";
 import { useNavigate } from "react-router-dom";
 import * as auth from "../utils/auth";
 
-function Register() {
+function Register({handleRegister}) {
   const navigate = useNavigate();
 
   const goToLogin = () => {
@@ -27,13 +27,9 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    auth
-      .register({ email, password })
-      .then(() => {
-        navigate("/sign-in");
-      })
-      .catch((err) => console.log(err));
+    handleRegister({ password, email })
   };
+
   return (
     <>
       <div className="header">

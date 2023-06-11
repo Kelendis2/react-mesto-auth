@@ -1,12 +1,10 @@
 import "../index.css";
 
-
-
 import { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 
 import { api } from "../utils/Api.js";
-//import {register,authorize,getContent} from "../utils/auth"
+import * as auth from "../utils/auth";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 import Header from "./Header.js";
@@ -16,7 +14,7 @@ import Footer from "./Footer.js";
 import ImagePopup from "./ImagePopup.js";
 import Register from "./Register";
 import Login from "./Login";
-//import InfoTooltip from "./InfoTooltip";
+import InfoTooltip from "./InfoTooltip";
 import ProtectedRoute from "./ProtectedRoute";
 import PageError from "./PageNotFound";
 import EditProfilePopup from "./EditProfilePopup";
@@ -24,20 +22,21 @@ import AddPlacePopup from "./AddPlacePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import ConfirmationPopup from "./ConfirmationPopup";
 
-
-
 function App() {
   //Хуки
   const [isAvatarPopupOpen, setAvatarPopupOpen] = useState(false);
   const [isProfilePopupOpen, setProfilePopupOpen] = useState(false);
   const [isAddCardPopupOpen, setAddCardPopupOpen] = useState(false);
   const [isTrashPopupOpen, setTrashPopupOpen] = useState(false);
+  const [isError, setError] = useState(false);
+  const [isInfoToolTipOpen, setIsInfoToolTipOpen] = useState(false);
   const [cards, setCards] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
   const [selectedCard, setSelectedCard] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [userEmail, setUserEmail]= useState({email:''})
+  const [userEmail, setUserEmail] = useState({ email: "" });
+  const navigate = useNavigate();
 
   // Получение данных с сервера о пользователе
   useEffect(() => {
@@ -112,12 +111,23 @@ function App() {
       });
   };
 
+  // Попап регистрации
+  function handleInfoTooltipPositive() {
+    setIsInfoToolTipOpen(true);
+  }
+
+  function handleInfoTooltipNegative() {
+    setError(true);
+    setIsInfoToolTipOpen(true);
+
+  }
   // Закрытие всех попапов
   function closeAllPopups() {
     setAvatarPopupOpen(false);
     setProfilePopupOpen(false);
     setAddCardPopupOpen(false);
     setTrashPopupOpen(false);
+    setIsInfoToolTipOpen(false);
     setSelectedCard({});
   }
 
@@ -151,11 +161,46 @@ function App() {
         setIsLoading(false);
       });
   }
+  // Регистрация
+  const handleRegister = ({ email, password }) => {
+    auth
+      .register({ email, password })
+      .then(() => {
+        handleInfoTooltipPositive(true);
+        navigate("/sign-in");
+      })
+      .catch((err) => {
+        console.log(err);
+        handleInfoTooltipNegative(true);
+      });
+  };
 
   //Логин
-   const handleLogin = () => {
+  const handleLogin = ({email}) => {
     setLoggedIn(true);
-   }
+    setUserEmail({ email });
+  };
+
+  //Проверка токена
+  const tockenCheck = () => {
+    const jwt = localStorage.getItem("jwt");
+    if (jwt) {
+      auth
+        .getContent(jwt)
+        .then((res) => {
+          console.log(res)
+          if (res) {
+            handleLogin({email: res.data.email});
+            navigate("/users/me");
+          }
+        })
+        .catch((err) => console.log(err))
+    }
+  };
+
+  useEffect(() => {
+    tockenCheck();
+  },[]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -173,17 +218,24 @@ function App() {
                 )
               }
             />
-            <Route path="/sign-up" element={<Register />} />
-            <Route path="/sign-in" element={<Login handleLogin = {handleLogin} />} />
+            <Route
+              path="/sign-up"
+              element={
+                  <Register handleRegister={handleRegister} />
+              }
+            />
+            <Route
+              path="/sign-in"
+              element={<Login handleLogin={handleLogin} />}
+            />
             <Route
               path="/users/me"
               element={
                 <>
-                  <Header
-                  userEmail={userEmail} />
+                  <Header userEmail={userEmail} />
                   <ProtectedRoute
-                    loggedIn={loggedIn}
                     element={Main}
+                    loggedIn={loggedIn}
                     onEditProfile={handleEditProfileClick}
                     onAddPlace={handleAddCardClick}
                     onEditAvatar={handleEditAvatarClick}
@@ -230,6 +282,11 @@ function App() {
               }
             />
           </Routes>
+          <InfoTooltip
+                    isOpen={isInfoToolTipOpen}
+                    onClose={closeAllPopups}
+                    isError={isError}
+                  />
         </div>
       </div>
     </CurrentUserContext.Provider>
