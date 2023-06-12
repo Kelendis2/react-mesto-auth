@@ -1,7 +1,6 @@
 import React from "react";
 import headerLogo from "../images/logo.svg";
 import { useNavigate } from "react-router-dom";
-import * as auth from "../utils/auth";
 
 function Login({ handleLogin }) {
   const navigate = useNavigate();
@@ -34,17 +33,7 @@ function Login({ handleLogin }) {
       setErrorMessage("Both fields are required");
       return;
     }
-
-    auth
-      .authorize(email, password)
-      .then((data) => {
-        if (data.token) {
-          localStorage.setItem("jwt", data.token);
-          handleLogin({ email: formValue.email });
-          navigate("/users/me");
-        }
-      })
-      .catch((err) => setErrorMessage(err));
+    handleLogin({ email, password });
   };
 
   return (

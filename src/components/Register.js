@@ -1,7 +1,7 @@
 import React from "react";
 import headerLogo from "../images/logo.svg";
 import { useNavigate } from "react-router-dom";
-import * as auth from "../utils/auth";
+
 
 function Register({ handleRegister }) {
   const navigate = useNavigate();

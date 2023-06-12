@@ -175,9 +175,18 @@ function App() {
   };
 
   //Логин
-  const handleLogin = ({ email }) => {
-    setLoggedIn(true);
-    setUserEmail({ email });
+  const handleLogin = ({ email,password }) => {
+    auth
+      .authorize(email, password)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem("jwt", data.token);
+          setLoggedIn(true);
+          setUserEmail({ email });
+          navigate("/users/me");
+        }
+      })
+      .catch((err) => console.log(err));
   };
 
   //Проверка токена
