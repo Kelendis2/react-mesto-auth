@@ -196,9 +196,8 @@ function App() {
       auth
         .getContent(jwt)
         .then((res) => {
-          console.log(res);
           if (res) {
-            handleLogin({ email: res.data.email });
+            setLoggedIn(true);
             navigate("/users/me");
           }
         })
